@@ -11,23 +11,20 @@ This quickstart creates a complete widget editing environment:
 - **Local API** — simple backend for widget storage
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                    Docker Environment                            │
-├──────────────┬──────────────┬───────────────────────────────────┤
+┌──────────────┬──────────────┬───────────────────────────────────┐
 │   Frontend   │   Backend    │      Static Components            │
-│   :4302      │   :3200      │           :4301                   │
-│  (Vite+nginx)│  (Express)   │         (nginx)                   │
+│   :4202      │   :3100      │           :9590                   │
+│   (Vite)     │  (Express)   │       (dev server)                │
 └──────────────┴──────────────┴───────────────────────────────────┘
         │              │                    │
-        │              │                    │
         ▼              ▼                    ▼
-   Editor UI      Widget API         Component
+   Editor UI      Widget API          Components
 ```
 
 ## Prerequisites
 
 - Node.js >= 22.20.0
-- Docker & Docker Compose (for containerized deployment)
+- Docker & Docker Compose (optional, for deployment example only)
 
 ## Project Structure
 
@@ -45,7 +42,7 @@ quickstart/
 │   ├── src/
 │   │   ├── index.ts           # Server entry
 │   │   └── routes/widgets.ts  # Widget CRUD endpoints
-│   └── data/widgets.json      # File-based storage
+│   └── data/local-data/       # Auto-generated storage (gitignored)
 ├── static-components/     # Pre-built web components (demo only)
 └── docker-compose.yml     # Container orchestration
 ```
@@ -84,6 +81,8 @@ npm install
 npm run dev    # Starts on port 3100
 ```
 
+Backend automatically creates `data/local-data/` folder for widget storage on first run. To reset local state, delete this folder and restart the backend.
+
 **Frontend:**
 ```bash
 cd quickstart/frontend
@@ -96,7 +95,9 @@ npm run dev    # Starts on port 4202
 npm run components:dev    # Starts on port 9590
 ```
 
-## Docker Deployment
+## Docker Deployment (Optional)
+
+Docker setup is provided as an **example of production-like deployment**. It is not required for local development — use the commands in "Local Development" section above.
 
 Docker Compose orchestrates three services with automatic networking.
 
