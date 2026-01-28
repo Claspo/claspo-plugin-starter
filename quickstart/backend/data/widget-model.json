@@ -1,0 +1,76 @@
+{
+  "id": 1,
+  "name": "New widget",
+  "publishStatus": "DEBUG",
+  "createdDate": "2026-01-06T08:11:18.484Z",
+  "updatedDate": "2026-01-06T08:19:20.093Z",
+  "variants": [
+    {
+      "id": 1,
+      "formId": 1,
+      "linkedToVariantId": null,
+      "config": {
+        "type": "DETACHED",
+        "placements": [],
+        "prizePoolIds": []
+      },
+      "appearances": [
+        {
+          "id": 1,
+          "language": null,
+          "origin": true
+        }
+      ],
+      "revision": "5c217908-0f7b-4c77-bc5d-0dadf07f6939",
+      "publishedRevision": "5c217908-0f7b-4c77-bc5d-0dadf07f6939",
+      "type": "SUBSCRIPTION_FORM"
+    }
+  ],
+  "config": {
+    "formId": 1,
+    "id": 1,
+    "config": {
+      "type": "DETACHED",
+      "placements": [],
+      "fields": [],
+      "hideForSubscribers": false,
+      "checkThisWidgetOnly": false,
+      "showForSegment": false,
+      "prizePoolIds": []
+    },
+    "integration": {
+      "uuid": null,
+      "name": null,
+      "webhookUrl": null,
+      "mapping": null,
+      "type": "embedded",
+      "doubleOptIn": false,
+      "hideForSubscribers": false,
+      "contactCollectingType": "NEW_ONLY",
+      "subscriptionNotificationEmails": null,
+      "actions": {
+        "addToSegments": {
+          "name": "addToSegments",
+          "params": {
+            "segmentsIds": [],
+            "newOnly": true
+          }
+        }
+      },
+      "errors": []
+    },
+    "appearances": [
+      {
+        "id": 1,
+        "language": null,
+        "origin": true
+      }
+    ],
+    "linkedToVariantId": null,
+    "type": "SUBSCRIPTION_FORM",
+    "templateId": null,
+    "restrictions": null,
+    "revision": "5c217908-0f7b-4c77-bc5d-0dadf07f6939",
+    "publishedRevision": "5c217908-0f7b-4c77-bc5d-0dadf07f6939"
+  }
+}

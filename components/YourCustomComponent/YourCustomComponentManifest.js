@@ -1,0 +1,474 @@
+export const YourCustomComponentManifest = {
+  "name": "YourCustomComponent",
+  "componentType": "TEXT",
+  "version": "1.0.0",
+  "events": {
+    "dispatch": [],
+    "listen": []
+  },
+  "contextMenuModel": [
+    {
+      "type": "GROUP",
+      "propPath": [
+        "adaptiveStyles",
+        "desktop"
+      ],
+      "children": [
+        {
+          "type": "CONTROL",
+          "name": "COMPONENT_OPERATIONS"
+        },
+        {
+          "type": "CONTROL",
+          "name": "BRING_BACK_FORWARD",
+          "element": "host",
+          "elementProp": "styleAttributes",
+          "elementSubProp": "zIndex"
+        },
+        {
+          "type": "CONTROL",
+          "name": "FOCUS_PARENT_COMPONENT"
+        }
+      ]
+    },
+    {
+      "type": "GROUP",
+      "propPath": [
+        "adaptiveStyles",
+        "mobile"
+      ],
+      "children": [
+        {
+          "type": "CONTROL",
+          "name": "COMPONENT_OPERATIONS"
+        },
+        {
+          "type": "CONTROL",
+          "name": "BRING_BACK_FORWARD",
+          "element": "host",
+          "elementProp": "styleAttributes",
+          "elementSubProp": "zIndex"
+        },
+        {
+          "type": "CONTROL",
+          "name": "FOCUS_PARENT_COMPONENT"
+        }
+      ]
+    }
+  ],
+  "floatingPanelModel": [
+    {
+      "type": "GROUP",
+      "propPath": [
+        "adaptiveStyles",
+        "desktop"
+      ],
+      "children": [
+        {
+          "type": "CONTROL",
+          "name": "TEXT_PARAMS",
+          "params": [
+            {
+              "element": "text",
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "GROUP",
+      "propPath": [
+        "adaptiveStyles",
+        "mobile"
+      ],
+      "children": [
+        {
+          "type": "CONTROL",
+          "name": "TEXT_PARAMS",
+          "params": [
+            {
+              "element": "text",
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "floatingControlsModel": [
+    {
+      "type": "GROUP",
+      "propPath": [
+        "adaptiveStyles",
+        "desktop"
+      ],
+      "children": [
+        {
+          "type": "CONTROL",
+          "name": "SIZE",
+          "elementProp": "styleAttributes",
+          "element": "host",
+          "params": {
+            "height": {
+              "hide": true
+            }
+          }
+        },
+        {
+          "type": "CONTROL",
+          "name": "MARGIN",
+          "elementProp": "styleAttributes",
+          "element": "host"
+        },
+        {
+          "type": "CONTROL",
+          "name": "CONTAINER_PADDING",
+          "elementProp": "styleAttributes",
+          "element": "host"
+        }
+      ]
+    },
+    {
+      "type": "GROUP",
+      "propPath": [
+        "adaptiveStyles",
+        "mobile"
+      ],
+      "children": [
+        {
+          "type": "CONTROL",
+          "name": "SIZE",
+          "elementProp": "styleAttributes",
+          "element": "host",
+          "params": {
+            "height": {
+              "hide": true
+            }
+          }
+        },
+        {
+          "type": "CONTROL",
+          "name": "MARGIN",
+          "elementProp": "styleAttributes",
+          "element": "host"
+        },
+        {
+          "type": "CONTROL",
+          "name": "CONTAINER_PADDING",
+          "elementProp": "styleAttributes",
+          "element": "host"
+        }
+      ]
+    }
+  ],
+  "propertyPaneModel": {
+    "content": [
+      {
+        "type": "GROUP",
+        "propPath": [
+          "adaptiveStyles",
+          "desktop"
+        ],
+        "children": [
+          {
+            "type": "CONTROL",
+            "name": "SIZE",
+            "element": "host",
+            "elementProp": "styleAttributes",
+            "params": {
+              "width": {
+                "options": [
+                  "fixed",
+                  "fill",
+                  "hug"
+                ]
+              },
+              "height": {
+                "options": [
+                  "hug"
+                ]
+              }
+            }
+          },
+          {
+            "type": "CONTROL",
+            "name": "TEXT_PARAMS",
+            "params": [
+              {
+                "element": "text",
+                "isLineSpaceAvailable": true,
+                "isTextTransformAvailable": true
+              }
+            ]
+          },
+          {
+            "type": "CONTROL",
+            "name": "INSERT_BLOCK",
+            "params": [
+              {
+                "element": "text",
+                "label": "DOCUMENT_TEXT",
+                "isLinkAvailable": true,
+                "origin": true
+              }
+            ]
+          },
+          {
+            "type": "CONTROL",
+            "name": "BACKGROUND",
+            "element": "host",
+            "elementProp": "styleAttributes",
+            "params": {
+              "onlyColorSelection": true
+            }
+          },
+          {
+            "type": "CONTROL",
+            "name": "INDENTATION",
+            "elementProp": "styleAttributes",
+            "element": "text",
+            "params": {
+              "indentationType": "PADDING"
+            }
+          },
+          {
+            "type": "CONTROL",
+            "name": "INDENTATION",
+            "elementProp": "styleAttributes",
+            "element": "host",
+            "params": {
+              "indentationType": "MARGIN"
+            }
+          }
+        ]
+      },
+      {
+        "type": "GROUP",
+        "propPath": [
+          "adaptiveStyles",
+          "mobile"
+        ],
+        "children": [
+          {
+            "type": "CONTROL",
+            "name": "SIZE",
+            "element": "host",
+            "elementProp": "styleAttributes",
+            "params": {
+              "width": {
+                "options": [
+                  "fixed",
+                  "fill",
+                  "hug"
+                ]
+              },
+              "height": {
+                "options": [
+                  "hug"
+                ]
+              }
+            }
+          },
+          {
+            "type": "CONTROL",
+            "name": "TEXT_PARAMS",
+            "params": [
+              {
+                "element": "text",
+                "isLineSpaceAvailable": true,
+                "isTextTransformAvailable": true
+              }
+            ]
+          },
+          {
+            "type": "CONTROL",
+            "name": "INSERT_BLOCK",
+            "params": [
+              {
+                "element": "text",
+                "label": "DOCUMENT_TEXT",
+                "isLinkAvailable": true,
+                "origin": true
+              }
+            ]
+          },
+          {
+            "type": "CONTROL",
+            "name": "BACKGROUND",
+            "element": "host",
+            "elementProp": "styleAttributes",
+            "params": {
+              "onlyColorSelection": true
+            }
+          },
+          {
+            "type": "CONTROL",
+            "name": "INDENTATION",
+            "elementProp": "styleAttributes",
+            "element": "text",
+            "params": {
+              "indentationType": "PADDING"
+            }
+          },
+          {
+            "type": "CONTROL",
+            "name": "INDENTATION",
+            "elementProp": "styleAttributes",
+            "element": "host",
+            "params": {
+              "indentationType": "MARGIN"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "autoContrast": [
+    {
+      "slave": {
+        "element": "text",
+        "elementProp": "styleAttributes",
+        "elementSubProp": "color",
+      },
+      "master": {
+        "element": "host",
+        "elementProp": "styleAttributes",
+        "elementSubProp": "background",
+      },
+      "enabledPropPath": [
+        "content",
+        "textContrastEnabled"
+      ],
+    }
+  ],
+  "i18nPropPaths": [
+    "content,text",
+    "content,textrollers",
+    "content,mergeTags"
+  ],
+  "i18nPropertyPaneModel": {
+    "content": [
+      {
+        "type": "CONTROL",
+        "name": "INSERT_BLOCK",
+        "params": [
+          {
+            "element": "text",
+            "label": "DOCUMENT_TEXT",
+            "isLinkAvailable": true,
+            "origin": false
+          }
+        ]
+      }
+    ]
+  },
+  "props": {
+    "adaptiveStyles": {
+      "desktop": [
+        {
+          "element": "host",
+          "styleAttributes": {
+            "width": "100%",
+            "minWidth": null,
+            "height": "auto",
+            "minHeight": null,
+            "marginTop": "0px",
+            "marginBottom": "0px",
+            "marginLeft": "0px",
+            "marginRight": "0px",
+            "_marginEnabled": false
+          }
+        },
+        {
+          "element": "text",
+          "styleAttributes": {
+            "paddingTop": "0px",
+            "paddingBottom": "0px",
+            "paddingLeft": "0px",
+            "paddingRight": "0px",
+            "_paddingEnabled": false,
+            "color": "rgb(50, 66, 67)",
+            "textAlign": "start",
+            "lineHeight": "120%",
+            "fontWeight": "500",
+            "fontSize": "16px",
+            "textShadow": "none"
+          },
+          "classes": ""
+        }
+      ],
+      "mobile": [
+        {
+          "element": "host",
+          "styleAttributes": {
+            "width": "100%",
+            "minWidth": null,
+            "height": "auto",
+            "minHeight": null,
+            "marginTop": "0px",
+            "marginBottom": "0px",
+            "marginLeft": "0px",
+            "marginRight": "0px",
+            "_marginEnabled": false
+          }
+        },
+        {
+          "element": "text",
+          "styleAttributes": {
+            "paddingTop": "0px",
+            "paddingBottom": "0px",
+            "paddingLeft": "0px",
+            "paddingRight": "0px",
+            "_paddingEnabled": false,
+            "color": "rgb(50, 66, 67)",
+            "textAlign": "start",
+            "lineHeight": "120%",
+            "fontWeight": "500",
+            "fontSize": "16px",
+            "textShadow": "none"
+          },
+          "classes": ""
+        }
+      ]
+    },
+    "content": {
+      "text": "Text",
+      "textContrastEnabled": true
+    }
+  },
+  "metaDescription": {
+    "icon": "/SysTextComponent/assets/img/text-component-icon.svg",
+    "label": {
+      "en": "Text",
+      "ru": "Текст",
+      "uk": "Текст",
+      "es": "Texto",
+      "de": "Text",
+      "fr": "Texte",
+      "it": "Testo",
+      "pt": "Texto",
+      "ro": "Text",
+      "bg": "Текст",
+      "cs": "Text",
+      "el": "Κείμενο",
+      "nl": "Tekst",
+      "pl": "Tekst",
+      "sv": "Text",
+      "tr": "Metin",
+      "ar": "النَّص",
+      "zh": "文本字段",
+      "da": "Tekst",
+      "he": "טקסט",
+      "fi": "Teksti",
+      "hi": "टेक्स्ट",
+      "hr": "Tekst",
+      "hu": "Szöveg",
+      "id": "Teks",
+      "ja": "テキスト",
+      "ko": "텍스트",
+      "no": "Tekst",
+      "sk": "Text",
+      "sl": "Besedilo",
+      "sr": "Tekst"
+    }
+  }
+};

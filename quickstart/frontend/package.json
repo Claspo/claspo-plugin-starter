@@ -1,0 +1,21 @@
+{
+  "name": "claspo-quickstart",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "moduleResolution": "node",
+  "scripts": {
+    "dev": "vite --open",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@claspo/common": "6.0.6",
+    "@claspo/document-connector": "15.0.5",
+    "@claspo/editor": "^1.0.14"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "vite": "^5.4.0"
+  }
+}

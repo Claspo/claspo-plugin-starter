@@ -1,0 +1,19 @@
+out
+node_modules
+bundled-components
+quickstart/backend/data/local-data
+quickstart/backend/dist
+quickstart/frontend/dist
+
+# IDEs and editors
+/.idea
+./idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+SECURITY*.md
+
+.DS_Store
+quickstart/static-components/dist

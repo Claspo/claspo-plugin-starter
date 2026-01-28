@@ -1,0 +1,24 @@
+name: claspo-quickstart
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3200:3100"
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "4302:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  static-components:
+    build:
+      context: ../
+      dockerfile: quickstart/static-components/Dockerfile
+    ports:
+      - "4301:8080"
+    restart: unless-stopped
