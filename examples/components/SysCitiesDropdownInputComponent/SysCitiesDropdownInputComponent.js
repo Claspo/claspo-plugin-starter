@@ -1,6 +1,6 @@
 import WcControlledElement from "@claspo/renderer/sdk/WcControlledElement";
 
-import SysDropdownManifest from "./SysDropdown.manifest";
+import SysDropdownManifest from "./SysCitiesDropdownInput.manifest";
 import DefaultPlaceholderValue from "./defaultPlaceholderValue";
 import OverlayContentStyles from "./overlayContentStyles";
 import DropdownMenuOptionLabelStyles from "./dropdownMenuOptionLabelStyles";
@@ -22,9 +22,9 @@ import {
 } from '@claspo/renderer/sdk/OverlayUtils';
 import { getPlaceholderColor } from '@claspo/renderer/sdk/ModelStyleUtils';
 
-export default class SysDropdownInputComponent extends WcControlledElement {
+export default class SysCitiesDropdownInputComponent extends WcControlledElement {
   static define = {
-    name: 'sys-dropdown-input',
+    name: 'sys-cities-dropdown-input',
     model: SysDropdownManifest.name,
     manifest: SysDropdownManifest,
   };
@@ -41,11 +41,14 @@ export default class SysDropdownInputComponent extends WcControlledElement {
   enableSearchOptionsCount = 5;
   cachedCities = [];
 
-    async loadCities() {
-        if (this.cachedCities.length === 0 && this.getProps().control.optionsUrl) {
-            const cities = await fetch(this.getProps().control.optionsUrl)
-              .catch(err => console.error(err))
-              .then(res => res.json());
+    async loadCities(optionsUrl) {
+        if (optionsUrl) {
+            const cities = await fetch(optionsUrl)
+              .then(res => res.json())
+              .catch((error) => {
+                console.log(error);
+                return { options: [] };
+              });
 
             this.cachedCities = cities.options.reduce((acc, city, index) => {
                 acc[city.id] = {
@@ -65,8 +68,8 @@ export default class SysDropdownInputComponent extends WcControlledElement {
     super();
 
     this.getRootElement().innerHTML = `
-      <style id="cl-dropdown-styles">${SysDropdownInputComponent.componentStyle()}</style>
-      ${SysDropdownInputComponent.componentTemplate}
+      <style id="cl-dropdown-styles">${SysCitiesDropdownInputComponent.componentStyle()}</style>
+      ${SysCitiesDropdownInputComponent.componentTemplate}
     `;
   }
 
@@ -75,45 +78,52 @@ export default class SysDropdownInputComponent extends WcControlledElement {
     const rootElement = this.getRootElement();
     const props = this.getProps();
 
-    this.loadCities().then((cities) => {this.getProps().control.options = this.cachedCities;})
+    this.loadCities(props.control.optionsUrl)
+      .then(() => {
+        props.control.options = this.cachedCities;
 
-    this.registerControl(rootElement);
+        this.registerControl(rootElement);
 
-    this.setPlaceholder(props, this.getEnvironment());
-    this.setDropdownInputText(this.getOptions());
+        this.setPlaceholder(props, this.getEnvironment());
+        this.setDropdownInputText(this.getOptions());
 
-    this.observeProps((prev, next) => {
-      const env = this.getEnvironment();
-      this.applyAutoAdaptiveStyles(next.adaptiveStyles, next.styles);
-      applyInputLabelStyles(next, env, rootElement, '.label-with-dropdown-input-container');
-      setInputHostSize(next, env, this.getHostElement(), this.getElement('input'), this.getElement('label'));
+        this.observeProps(async (prev, next) => {
+          const env = this.getEnvironment();
+          this.applyAutoAdaptiveStyles(next.adaptiveStyles, next.styles);
+          applyInputLabelStyles(next, env, rootElement, '.label-with-dropdown-input-container');
+          setInputHostSize(next, env, this.getHostElement(), this.getElement('input'), this.getElement('label'));
 
-      this.getProps().control.options = this.cachedCities;
-      this.setPlaceholder(next, env);
-      this.setDropdownInputText(this.getOptions());
+          if (next.control?.optionsUrl !== prev?.control?.optionsUrl) {
+            await this.loadCities(next.control.optionsUrl)
+          }
+          this.getProps().control.options = this.cachedCities;
 
-      this.setArrowIconStyles(next, env);
-      setFocusOutline(this.getElement('input'));
-    });
+          this.setPlaceholder(next, env);
+          this.setDropdownInputText(this.getOptions());
 
-    this.observeShared(() => {
-      this.setPlaceholder(this.getProps(), this.getEnvironment());
-      this.setArrowIconStyles(this.getProps(), this.getEnvironment());
-    });
+          this.setArrowIconStyles(next, env);
+          setFocusOutline(this.getElement('input'));
+        });
 
-    this.observeEnvironment((prev, next) => {
-      const props = this.getProps();
-      applyInputLabelStyles(props, next, rootElement, '.label-with-dropdown-input-container');
-      setInputHostSize(props, next, this.getHostElement(), this.getElement('input'), this.getElement('label'));
-      this.setPlaceholder(props, next);
-      this.setArrowIconStyles(props, next);
-    });
+        this.observeShared(() => {
+          this.setPlaceholder(this.getProps(), this.getEnvironment());
+          this.setArrowIconStyles(this.getProps(), this.getEnvironment());
+        });
 
-    rootElement.querySelector('.dropdown-input-with-tooltip').addEventListener('click', () => {
-      waitForKeyboardHide(() => this.createOverlay(this.getOptions()));
-    });
+        this.observeEnvironment((prev, next) => {
+          const props = this.getProps();
+          applyInputLabelStyles(props, next, rootElement, '.label-with-dropdown-input-container');
+          setInputHostSize(props, next, this.getHostElement(), this.getElement('input'), this.getElement('label'));
+          this.setPlaceholder(props, next);
+          this.setArrowIconStyles(props, next);
+        });
 
-    this.configInputEventListeners();
+        rootElement.querySelector('.dropdown-input-with-tooltip').addEventListener('click', () => {
+          waitForKeyboardHide(() => this.createOverlay(this.getOptions()));
+        });
+
+        this.configInputEventListeners();
+      })
   };
 
   registerControl = (rootElement) => {
@@ -191,8 +201,8 @@ export default class SysDropdownInputComponent extends WcControlledElement {
 
   createOverlayContent = (backdrop, overlayContentContainer, filteredOptions, allOptions) => {
     const inputElement = this.getElement('input');
-    const optionLabelStyles = getStylesFromElement(inputElement, SysDropdownInputComponent.dropdownMenuOptionLabelStyles);
-    const overlayStyles = getStylesFromElement(inputElement, SysDropdownInputComponent.overlayContentStyles);
+    const optionLabelStyles = getStylesFromElement(inputElement, SysCitiesDropdownInputComponent.dropdownMenuOptionLabelStyles);
+    const overlayStyles = getStylesFromElement(inputElement, SysCitiesDropdownInputComponent.overlayContentStyles);
     overlayStyles.background = getOverlayBackgroundColor(overlayStyles.background, optionLabelStyles.color);
 
     const overlayBorderRadius = 4;
@@ -230,7 +240,7 @@ export default class SysDropdownInputComponent extends WcControlledElement {
         exportId: null,
         id: null,
         sort: 0,
-        label: this.getTranslationsMap(SysDropdownInputComponent.NO_MATCHES_OPTION).translations,
+        label: this.getTranslationsMap(SysCitiesDropdownInputComponent.NO_MATCHES_OPTION).translations,
       };
       const noMatchesElement = this.createDropdownButtonMenuButtonComponent(noMatchesOption, false, optionLabelStyles, overlayStyles.background);
       buttonsList.appendChild(noMatchesElement);
@@ -266,8 +276,8 @@ export default class SysDropdownInputComponent extends WcControlledElement {
     const overlayContentClassName = getMenuOverlayContentClassName();
     const inputElement = this.getElement('input');
     const backgroundColor = getOverlayBackgroundColor(
-      getStylesFromElement(inputElement, SysDropdownInputComponent.overlayContentStyles).background,
-      getStylesFromElement(inputElement, SysDropdownInputComponent.dropdownMenuOptionLabelStyles).color,
+      getStylesFromElement(inputElement, SysCitiesDropdownInputComponent.overlayContentStyles).background,
+      getStylesFromElement(inputElement, SysCitiesDropdownInputComponent.dropdownMenuOptionLabelStyles).color,
     );
 
     return `
@@ -339,10 +349,10 @@ export default class SysDropdownInputComponent extends WcControlledElement {
     const placeholderColor = getPlaceholderColor(props, env, this.getShared());
 
     const stylesElement = this.getRootElement().querySelector('#cl-dropdown-styles');
-    stylesElement.textContent = SysDropdownInputComponent.componentStyle({ placeholderColor });
+    stylesElement.textContent = SysCitiesDropdownInputComponent.componentStyle({ placeholderColor });
 
     const placeholderValue = props.content.placeholder
-      || this.getTranslationsMap(SysDropdownInputComponent.DEFAULT_PLACEHOLDER_VALUE).translations;
+      || this.getTranslationsMap(SysCitiesDropdownInputComponent.DEFAULT_PLACEHOLDER_VALUE).translations;
     dropdownInputElement.setAttribute('placeholder', placeholderValue);
   };
 

@@ -1,5 +1,5 @@
 export default {
-  "name": "SysDropdownInputComponent",
+  "name": "SysCitiesDropdownInputComponent",
   "componentType": "INPUT",
   "version": "1.0.0",
   "mappingTypes": ["SELECT"],
@@ -838,7 +838,7 @@ export default {
     }
   },
   "metaDescription": {
-    "icon": "/SysDropdownInputComponent/assets/img/dropdown-component-icon.svg",
+    "icon": "/SysCitiesDropdownInputComponent/assets/img/dropdown-component-icon.svg",
     "label": {
       "en": "City options",
       "ru": "Выпадающий список",
