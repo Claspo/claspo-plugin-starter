@@ -386,7 +386,110 @@ icon: "/SysMyComponent/assets/img/my-icon.svg"
 
 ### Making Components Available in the Editor
 
-After creating a new component, add it to your editor configuration's `availableComponentsPanel` property to make it accessible in the component panel.
+After creating a new component, you need to update two configuration files to make it available in the editor.
+
+#### Step 1: Register in `claspo.config.js`
+
+Add your component to the `useComponents` array. This tells the build system to bundle your component:
+
+```javascript
+// claspo.config.js
+module.exports = {
+  useComponents: [
+    'SysTextComponent',
+    'SysButtonComponent',
+    'SysConsentComponent',
+    // Add your new components here
+    'SysDataConsentComponent',
+    'SysMarketingConsentComponent',
+    'SysCitiesDropdownInputComponent',
+  ],
+}
+```
+
+#### Step 2: Add to the Component Panel
+
+Update `quickstart/frontend/src/config/components-panel.ts` to make your component appear in the editor's drag-and-drop panel:
+
+```typescript
+// components-panel.ts
+import { AvailableComponentsGroupI } from '@claspo/editor';
+
+export const componentsPanelConfig: AvailableComponentsGroupI[] = [
+  {
+    label: 'DOCUMENT_DRAGGABLE_COMPONENTS_OTHER',
+    components: [
+      // Minimal entry - uses icon and label from manifest
+      { componentName: 'SysDataConsentComponent' },
+
+      // With custom icon and label
+      {
+        componentName: 'SysMarketingConsentComponent',
+        customIcon: '/SysMarketingConsentComponent/assets/img/email-icon2.svg',
+        customLabel: 'Marketing Consent',
+      },
+
+      // With preset props (model overrides)
+      {
+        componentName: 'SysCitiesDropdownInputComponent',
+        modelOverrides: {
+          props: {
+            control: {
+              optionsUrl: 'https://api.example.com/cities',
+            },
+          },
+        },
+      },
+    ],
+  },
+];
+```
+
+#### Component Entry Options
+
+| Option | Description |
+|--------|-------------|
+| `componentName` | **Required.** Must match the `name` in your manifest |
+| `customIcon` | Override the icon shown in the panel |
+| `customLabel` | Override the label shown in the panel |
+| `fullWidthIcon` | Set to `true` for wide icons (like column layouts) |
+| `modelOverrides` | Preset default props when the component is added |
+| `dependentComponentNames` | List child components that must also be loaded (e.g., `SysSlideComponent` for sliders) |
+
+#### Example: Multiple Variants of the Same Component
+
+You can add the same component multiple times with different presets:
+
+```typescript
+{
+  label: 'DOCUMENT_DRAGGABLE_COMPONENTS_STRUCTURAL',
+  components: [
+    // Single column
+    {
+      componentName: 'SysColumnsComponent',
+      fullWidthIcon: true,
+      customIcon: '/SysColumnsComponent/assets/img/columns-frame-100.svg',
+      modelOverrides: {
+        children: [{ componentName: 'SysColumnComponent' }],
+      },
+    },
+    // Two equal columns
+    {
+      componentName: 'SysColumnsComponent',
+      fullWidthIcon: true,
+      customIcon: '/SysColumnsComponent/assets/img/columns-frame-50-50.svg',
+      modelOverrides: {
+        children: [
+          { componentName: 'SysColumnComponent' },
+          { componentName: 'SysColumnComponent' },
+        ],
+      },
+    },
+  ],
+}
+```
+
+> **Tip:** Group related components under the same `label` to keep the panel organized. Common labels include `DOCUMENT_DRAGGABLE_COMPONENTS_BASIC`, `DOCUMENT_DRAGGABLE_COMPONENTS_INPUTS`, and `DOCUMENT_DRAGGABLE_COMPONENTS_OTHER`.
 
 ---
 
