@@ -2,13 +2,9 @@
 
 Integration example for Claspo Plugin: editor, renderer, and static components.
 
-## What You'll Build
+> **Quick Start:** See [root README](../README.md) for the fastest way to run the project with `npm run install:all && npm run dev`.
 
-This quickstart creates a complete widget editing environment:
-
-- **Widget Editor** — drag-and-drop interface for building widgets
-- **Widget Renderer** — preview widgets in real-time
-- **Local API** — simple backend for widget storage
+## Architecture
 
 ```
 ┌──────────────┬──────────────┬───────────────────────────────────┐
@@ -21,10 +17,11 @@ This quickstart creates a complete widget editing environment:
    Editor UI      Widget API          Components
 ```
 
-## Prerequisites
-
-- Node.js >= 22.20.0
-- Docker & Docker Compose (optional, for deployment example only)
+| Service | URL | Description |
+|---------|-----|-------------|
+| Frontend | http://localhost:4202 | Editor and renderer UI |
+| Backend | http://localhost:3100 | Widget API |
+| Components | http://localhost:9590 | Component dev server |
 
 ## Project Structure
 
@@ -47,32 +44,9 @@ quickstart/
 └── docker-compose.yml     # Container orchestration
 ```
 
-## Local Development
+## Running Services Separately
 
-### Quick Start (from repository root)
-
-The easiest way to run everything is from the repository root:
-
-```bash
-# From repository root
-npm run dev
-```
-
-This starts all services concurrently:
-
-| Service | URL | Description |
-|---------|-----|-------------|
-| Frontend | http://localhost:4202 | Editor and renderer UI |
-| Backend | http://localhost:3100 | Widget API |
-| Components | http://localhost:9590 | Component dev server |
-
-Open pages:
-- Editor: http://localhost:4202/editor.html
-- Renderer: http://localhost:4202/script.html
-
-### Running Services Separately
-
-Install dependencies and run each service individually:
+If you need to run services individually instead of using `npm run dev` from root:
 
 **Backend:**
 ```bash
@@ -81,7 +55,7 @@ npm install
 npm run dev    # Starts on port 3100
 ```
 
-Backend automatically creates `data/local-data/` folder for widget storage on first run. To reset local state, delete this folder and restart the backend.
+Backend automatically creates `data/local-data/` folder for widget storage on first run. To reset local state, delete this folder and restart.
 
 **Frontend:**
 ```bash
@@ -95,19 +69,32 @@ npm run dev    # Starts on port 4202
 npm run components:dev    # Starts on port 9590
 ```
 
+## Configuration
+
+### Environment Variables
+
+**Frontend** (`.env` files):
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `VITE_STATIC_RESOURCES_URL` | `http://localhost:9590/` | URL to component server |
+
+Create `.env.local` to override:
+```bash
+VITE_STATIC_RESOURCES_URL=https://your-cdn.com/components/
+```
+
 ## Docker Deployment (Optional)
 
-Docker setup is provided as an **example of production-like deployment**. It is not required for local development — use the commands in "Local Development" section above.
-
-Docker Compose orchestrates three services with automatic networking.
+Docker setup is provided as an **example of production-like deployment**. It is not required for local development.
 
 ### Services Overview
 
-| Service | Port | Internal Port | Description |
-|---------|------|---------------|-------------|
-| frontend | 4302 | 80 | Editor UI served via nginx |
-| backend | 3200 | 3100 | Express API for widget storage |
-| static-components | 4301 | 80 | Component bundles served via nginx |
+| Service | Port | Description |
+|---------|------|-------------|
+| frontend | 4302 | Editor UI served via nginx |
+| backend | 3200 | Express API for widget storage |
+| static-components | 4301 | Component bundles served via nginx |
 
 ### Build & Run
 
@@ -116,61 +103,35 @@ cd quickstart
 docker-compose up --build
 ```
 
-Access points:
+Access:
 - Editor: http://localhost:4302/editor.html
 - Renderer: http://localhost:4302/script.html
 - API: http://localhost:3200/api/widgets/demo
 
-Stop services:
-```bash
-docker-compose down
-```
+### Static Components for Docker
 
-### Static Components
-
-**Important:** The `static-components/` directory serves pre-built components for demonstration. It does not build components — only hosts them.
-
-Components are built at the **repository root level**:
+The `static-components/` directory serves pre-built components for the Docker demo. Components are built at the **repository root level**:
 
 ```bash
-# From repository root (not quickstart/)
+# From repository root
 npm run components:build:prod
 ```
 
-This creates `bundled-components/` folder at root. For the Docker demo, these files were copied to `quickstart/static-components/`.
+This creates `bundled-components/` folder. For Docker, copy these files to `quickstart/static-components/`.
 
-**In production, you must:**
-
-1. **Build components** — run `npm run components:build:prod` at repository root (see [root README](../README.md) for configuration)
-2. **Serve from your infrastructure** — CDN, nginx, S3, or any static file server
-3. **Configure the URL** — set `VITE_STATIC_RESOURCES_URL` to point to your component server
-
-The Docker example uses nginx to serve `static-components/`. Choose the method that fits your infrastructure.
-
-## Configuration
-
-### Environment Variables
-
-**Frontend** (`.env` files):
-
-| Variable | Local Default | Docker Default | Description |
-|----------|---------------|----------------|-------------|
-| `VITE_STATIC_RESOURCES_URL` | `http://localhost:9590/` | `http://localhost:4301/` | URL to component server |
-
-Create `.env.local` to override defaults:
-```bash
-VITE_STATIC_RESOURCES_URL=https://your-cdn.com/components/
-```
+**In production:**
+1. Build components with `npm run components:build:prod`
+2. Serve from your infrastructure (CDN, nginx, S3)
+3. Set `VITE_STATIC_RESOURCES_URL` to your component server URL
 
 ## Troubleshooting
 
 ### Components not loading
 
-**Symptom:** Editor shows empty component panel or broken component previews.
+**Symptom:** Editor shows empty component panel or broken previews.
 
-**Solution:** Verify `VITE_STATIC_RESOURCES_URL` points to a running component server:
+**Solution:** Verify component server is running:
 ```bash
-# Check if components are accessible
 curl http://localhost:9590/SysButtonComponent/SysButtonComponent.js
 ```
 
@@ -178,9 +139,18 @@ curl http://localhost:9590/SysButtonComponent/SysButtonComponent.js
 
 **Symptom:** Browser console shows CORS policy errors.
 
-**Solution:** Ensure your component server returns proper headers:
+**Solution:** Ensure component server returns proper headers:
 ```
 Access-Control-Allow-Origin: *
 ```
 
 The nginx configs in `static-components/nginx.conf` and `frontend/nginx.conf` include these headers.
+
+### Backend not responding
+
+**Symptom:** API calls fail or timeout.
+
+**Solution:** Check backend is running on port 3100:
+```bash
+curl http://localhost:3100/api/widgets/demo
+```

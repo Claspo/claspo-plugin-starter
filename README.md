@@ -2,19 +2,27 @@
 
 A starter template for developing Claspo components and extensions.
 
-## Table of Contents
+## Quick Start
 
-- [What is this?](#what-is-this)
-- [Prerequisites](#prerequisites)
-- [Getting Started](#getting-started)
-- [Architecture](#architecture)
-- [Configuration](#configuration)
-- [Custom Components](#custom-components)
-- [Troubleshooting](#troubleshooting)
+### 1. Install dependencies
+
+```bash
+npm run install:all
+```
+
+### 2. Run development servers
+
+```bash
+npm run dev
+```
+
+Open in browser:
+- **Editor:** http://localhost:4202/editor.html
+- **Renderer:** http://localhost:4202/script.html
 
 ## What is this?
 
-This starter template provides a foundation for developing Claspo plugins. It includes:
+This starter template provides a foundation for developing Claspo plugins:
 
 - Pre-configured webpack build system with ES modules support
 - Hot reload development servers for rapid iteration
@@ -22,44 +30,87 @@ This starter template provides a foundation for developing Claspo plugins. It in
 - Example configurations and quickstart templates
 - Support for both custom and pre-built components
 
-## Prerequisites
+## Quickstart
 
-Before you begin, ensure you have the following installed:
+The [quickstart/](./quickstart/) folder contains a complete integration example with:
+
+- **Frontend** (Vite) — Editor and Renderer UI on port 4202
+- **Backend** (Express) — Widget API on port 3100
+- **Docker setup** — Production-like deployment example
+
+See [quickstart/README.md](./quickstart/README.md) for architecture details and Docker deployment.
+
+## Prerequisites
 
 - Node.js (version 22.20.0 or higher)
 - npm (version 8 or higher)
 - Git
 
-## Getting Started
+## Custom Components
 
-### Step 1: Clone Repository
+Custom components allow you to extend functionality with your own reusable elements. Each component is a web component that can be used in Claspo campaigns and forms.
 
-Clone the starter template and initialize a new repository:
+### Create Component Structure
 
-```bash
-git clone git@github.com:Claspo/claspo-plugin-starter-poc.git your-plugin-name
-cd your-plugin-name
-rm -rf .git
-git init
+```
+components/
+└── YourCustomComponent/
+    ├── YourCustomComponent.js      # Main component file
+    └── assets/                     # Optional: component assets
+        ├── json/                   # JSON configuration files
+        └── images/                 # Component images and icons
 ```
 
-### Step 2: Install Dependencies
+> **Important:** Both folder and file names must include the "Component" suffix (e.g., `MyButtonComponent`, `MyTextComponent`).
 
-```bash
-npm install
+### Component Implementation
+
+Components are [custom elements](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements) that extend `WcElement`:
+
+```js
+// components/YourCustomComponent/YourCustomComponent.js
+import WcElement from '@claspo/renderer/sdk/WcElement';
+
+const manifest = {
+    name: 'YourCustomComponent',
+    version: '1.0.0',
+    props: {
+        text: 'Hello World'
+    }
+};
+
+export default class YourCustomComponent extends WcElement {
+  static define = {
+    name: 'your-custom-tag',
+    model: manifest.name,
+    manifest: manifest
+  };
+
+  manifest = manifest;
+
+  connectedCallback() {
+    super.connectedCallback();
+    console.log(`${this.getProps().text} from YourCustomComponent`);
+  }
+}
 ```
 
-### Step 3: Configure Components
+> **Note:** To override an existing component, create a folder with the same component name and provide the same name in the manifest.
 
-The starter template comes with predefined configuration that enables all available components by default. To optimize your plugin, you should select only the components you need.
+For detailed examples and advanced use cases, see [Custom Components Examples](./components/CUSTOM_COMPONENTS.md).
 
-The component configuration is managed in `claspo.config.js` through the `useComponents` property. This is a simple array of component names that you can modify to include only the components you require.
+### Build Commands
 
-Component names correspond to those defined in the component manifests in the [claspo-components-public](https://github.com/Claspo/claspo-components-public) repository.
+| Command | Description |
+|---------|-------------|
+| `npm run components:dev` | Development server with hot reload (port 9590) |
+| `npm run components:build:prod` | Production build to `bundled-components/` |
 
-**Example Configuration:**
+## Configuration
 
-If you only need Button and Text components, your configuration should look like this:
+### Component Selection
+
+The `useComponents` array in `claspo.config.js` controls which components are included in your build:
 
 ```js
 // claspo.config.js
@@ -67,54 +118,18 @@ module.exports = {
   useComponents: [
     'SysTextComponent',
     'SysButtonComponent',
+    // ... other components
   ],
 }
 ```
 
-### Step 4: Development and Build
-
-#### Available Scripts
-
-**`npm run components:dev`**
-- Starts webpack dev server on port 9590
-- Enables hot reload for component development
-- Serves components with CORS headers for cross-origin access
-- Watches for changes in the `components/` directory
-
-**`npm run components:build:prod`**
-- Creates production-optimized build
-- Outputs minified components to `bundled-components/`
-- Includes all configured components from `claspo.config.js`
-
-**`npm run quickstart:dev`**
-- Starts quickstart server on port 4202
-- Serves editor and script demo pages
-- Enables live reload for testing integration
-- Useful for testing components in a real environment
-
-After running the build command, a `bundled-components` folder will appear in your root directory. This folder contains sub-folders with the logic for each enabled component. These static resources you should serve for your plugin.
-
-**Expected Folder Structure:**
-
-Based on the previous example configuration, your folder structure should look like this:
-
-```
-root/
-├── bundled-components/
-│   ├── SysButtonComponent/
-│   └── SysTextComponent/
-├── components/
-├── claspo.config.js
-└── README.md
-```
+For a complete list of available components, refer to [claspo-components-public](https://github.com/Claspo/claspo-components-public).
 
 ## Architecture
 
 ### Component System
 
-The Claspo Plugin Starter uses a modular component architecture:
-
-1. **Component Registry**: Default components are registered through `claspo.config.js`, custom will be added automatically
+1. **Component Registry**: Default components are registered through `claspo.config.js`, custom components are added automatically
 2. **Build Process**: Webpack bundles components from both npm packages and local `components/` directory
 3. **Runtime Loading**: Components are loaded dynamically at runtime
 4. **Asset Management**: Each component can have its own assets folder
@@ -142,136 +157,39 @@ Source Components → Webpack → Bundled Components → Runtime
 └── package.json         # Dependencies and scripts
 ```
 
-## Configuration
+## All Available Scripts
 
-### Component Selection
-
-The `useComponents` array in `claspo.config.js` controls which components are included in your build:
-
-```js
-module.exports = {
-  useComponents: [
-    // Add or remove component names as needed
-    'SysTextComponent',
-    'SysButtonComponent',
-    'SysImageComponent',
-    // ... other components
-  ],
-}
-```
-
-### Available Components
-
-For a complete list of available components and their specifications, refer to the [claspo-components-public](https://github.com/Claspo/claspo-components-public).
-
-## Custom Components
-
-Custom components allow you to extend functionality with your own reusable elements. Each component is a web component that can be used in Claspo campaigns and forms.
-
-To add your own custom components, follow these steps:
-
-### Step 1: Create Component Structure
-
-Create the following folder and file structure:
-
-```
-root/
-├── components/
-│   └── YourCustomComponent/
-│       ├── YourCustomComponent.js      # Main component file
-│       └── assets/                     # Optional: component assets
-│           ├── json/                   # JSON configuration files
-│           └── images/                 # Component images and icons
-```
-
-> **Important:** Both folder and file names must include the "Component" suffix (e.g., `MyButtonComponent`, `MyTextComponent`).
-
-#### File Naming Convention:
-- **Folder name**: `YourCustomComponent` (PascalCase + "Component")
-- **File name**: `YourCustomComponent.js` (same as folder name + `.js`)
-- **Custom element tag**: `your-custom-tag` (kebab-case, defined in `static define.name`)
-> 
-### Step 2: Component Implementation
-
-Components are [custom elements](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements) with additional functionality. It's important to **extend** `WcElement` or its ancestors to inherit the necessary functionality.
-
-Here's an example of how to create a simple component:
-
-```js
-// components/YourCustomComponent/YourCustomComponent.js
-import WcElement from '@claspo/renderer/sdk/WcElement';
-
-const manifest = {
-    name: 'YourCustomComponent',
-    version: '1.0.0',
-    props: {
-        text: 'Hello World'
-    }
-};
-
-export default class YourCustomComponent extends WcElement {
-  static define = {
-    name: 'your-custom-tag',
-    model: manifest.name,
-    manifest: manifest
-  };
-  
-  manifest = manifest;
-
-  connectedCallback() {
-    super.connectedCallback();
-    console.log(`${this.getProps().text} from YourCustomComponent`);
-  }
-}
-```
-
-#### Key Points:
-
-- **Extend WcElement**: All components must extend `WcElement` to inherit Claspo functionality
-- **Manifest**: Defines component properties and metadata
-- **Static define**: Registers the component as a custom element
-- **connectedCallback**: Lifecycle method called when component is added to DOM
-
-> **Note**: To override an existing component, create a folder with the same component name and provide the same name in the manifest. It will automatically replace the original component (excluding cases where the component is hardcoded via direct imports).
-
-
-### Step 3: Build
-
-**🔧 Development Mode (with hot reload)**
-```bash
-npm run components:dev
-```
-
-**🚀 Production Build**
-```bash
-npm run components:build:prod
-```
-
-After running the build command, your custom component will appear in the `bundled-components` folder.
+| Script | Description |
+|--------|-------------|
+| `npm run install:all` | Install all dependencies (root + quickstart) |
+| `npm run dev` | Start all development servers |
+| `npm run components:dev` | Component dev server (port 9590) |
+| `npm run components:build:prod` | Production build |
+| `npm run quickstart:dev` | Quickstart servers (port 4202, 3100) |
 
 ## Troubleshooting
 
-### Common Issues
-
-**Build fails with component not found error:**
+### Build fails with component not found error
 - Verify that the component name in `useComponents` matches exactly with the component manifest
-- Check that the component exists in the [claspo-components-public](https://github.com/Claspo/claspo-components-public)
+- Check that the component exists in [claspo-components-public](https://github.com/Claspo/claspo-components-public)
 
-**Custom component not appearing in build:**
+### Custom component not appearing in build
 - Ensure the component folder and file names include the "Component" suffix
-- Verify the component is listed in the `useComponents` array
 - Check that the component file exports the required properties
 
-**No bundled-components folder after build:**
-- Ensure all dependencies are installed: `npm install`
+### No bundled-components folder after build
+- Ensure all dependencies are installed: `npm run install:all`
 - Check for any build errors in the console output
 - Verify the `claspo.config.js` file is properly formatted
 
-### Getting Help
+### Components not loading in editor
+- Verify component dev server is running on port 9590
+- Check browser console for CORS errors
+- See [quickstart troubleshooting](./quickstart/README.md#troubleshooting) for more details
 
-If you encounter issues not covered here:
+## Getting Help
 
-1. Check the docs.claspo.io
+1. Check [docs.claspo.io](https://docs.claspo.io)
 2. Review the build logs for specific error messages
 3. Ensure your Node.js version is compatible
 4. Check the [quickstart examples](./quickstart/) for working implementations
