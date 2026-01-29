@@ -327,11 +327,17 @@ propertyPaneModel: {
     // Remove default controls you don't need
     // Add custom control for the endpoint URL
     {
-      type: "TEXT_INPUT",
-      propertyPath: "control.optionsUrl",
-      label: "CITY_OPTIONS_ENDPOINT",
+      "type": "CONTROL",
+      "name": "TEXT_INPUT",
+      "propPath": [
+        "control",
+        "optionsUrl"
+      ],
+      "params": {
+        "label": "CITY_OPTIONS_ENDPOINT"
+      }
     },
-  ],
+  ]
 }
 ```
 
