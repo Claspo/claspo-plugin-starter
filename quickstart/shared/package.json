@@ -1,0 +1,8 @@
+{
+  "name": "claspo-quickstart-shared",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@claspo/editor": "^1.0.14"
+  }
+}

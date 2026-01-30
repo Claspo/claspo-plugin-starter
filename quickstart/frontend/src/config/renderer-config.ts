@@ -1,11 +1,12 @@
 import type {ClDocumentI} from '@claspo/common/document/Document.interface';
 import {WidgetInitConfigI} from '@claspo/common/WidgetInitConfig.interface';
-import {WidgetModelI} from "@claspo/editor";
+import {SimplifiedWidgetModelI} from "../types";
 
 const STATIC_RESOURCES_URL = import.meta.env.VITE_STATIC_RESOURCES_URL || 'http://localhost:9590/';
 const API_URL = '/';
 
-export function createRendererConfig(widget: WidgetModelI, documentModel: ClDocumentI): WidgetInitConfigI {
+export function createRendererConfig(widget: SimplifiedWidgetModelI): WidgetInitConfigI {
+  const documentModel = JSON.parse(widget.appearances[0].document) as ClDocumentI;
 
   return {
     layoutType: widget.config.config.type,
