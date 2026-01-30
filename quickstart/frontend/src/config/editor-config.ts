@@ -5,14 +5,16 @@ import {
   DataToSaveI,
   EditorApiConfigI,
   EditorConfigI,
-  WidgetAppearanceI, WidgetModelI, WidgetVariantDtoI,
+  WidgetAppearanceI,
+  WidgetVariantDtoI,
   ResolvedDataI,
 } from '@claspo/editor';
 import {componentsPanelConfig} from './components-panel';
 import {SHOPIFY_THEME} from "./shopify-theme.constant";
 import {showSnackbar} from '../utils/snackbar';
+import {SimplifiedWidgetModelI} from '../../shared/types';
 
-const EDITOR_SCRIPTS_URL = 'https://plugin.claspo.io/plugin/latest/editor';
+export const EDITOR_SCRIPTS_URL = 'https://plugin.claspo.io/plugin/latest/editor';
 const STATIC_RESOURCES_URL = import.meta.env.VITE_STATIC_RESOURCES_URL || 'http://localhost:9590/';
 const AUTH_TOKEN = ''
 
@@ -57,24 +59,22 @@ const contactMappingOptions: ClContactMappingOptionI[] = [
 
 export function createEditorConfig(
   containerElement: HTMLElement,
-  widget: WidgetModelI,
-  widgetAppearances: WidgetAppearanceI[],
-  teaser: WidgetModelI | null,
-  teaserAppearances: WidgetAppearanceI[] | null,
+  widget: SimplifiedWidgetModelI,
+  teaser: SimplifiedWidgetModelI | false,
 ): EditorConfigI {
   const api: Partial<EditorApiConfigI> = {
     getWidgetData: (): Promise<ResolvedDataI> =>
       Promise.resolve({
         widgetData: {
-          appearances: widgetAppearances,
-          variant: widget.config,
+          appearances: widget.appearances,
+          variant: widget.config as WidgetVariantDtoI,
           latestRevision: null,
           currentRevision: null,
           publishStatus: widget.publishStatus,
         },
         teaserData: teaser && {
-          appearances: teaserAppearances,
-          variant: teaser.config,
+          appearances: teaser.appearances,
+          variant: teaser.config as WidgetVariantDtoI,
           latestRevision: null,
           currentRevision: null,
           publishStatus: teaser.publishStatus,
@@ -83,35 +83,32 @@ export function createEditorConfig(
         linkedWidgets: []
       } as ResolvedDataI),
     saveWidgetData: async (result: DataToSaveI): Promise<void> => {
-      const saveVariantAndAppearances = async (
-        variant: WidgetVariantDtoI,
+      const saveWidget = async (
+        pristineWidget: SimplifiedWidgetModelI,
+        config: WidgetVariantDtoI,
         appearances: WidgetAppearanceI[],
         publishStatus,
       ): Promise<void> => {
-        const [configResponse, appearancesResponse] = await Promise.all([
-          fetch(`/api/widget/${variant.id}`, {
-            method: 'PATCH',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({variants: [variant], config: variant, publishStatus: publishStatus || undefined}),
+        const response = await fetch(`/api/simplified/widget/${pristineWidget.id}`, {
+          method: 'PUT',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            ...pristineWidget,
+            config,
+            appearances,
+            publishStatus: publishStatus || undefined,
           }),
-          fetch(`/api/widget/${variant.id}/appearances`, {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(appearances),
-          }),
-        ]);
+        });
 
-        if (!configResponse.ok) {
-          throw new Error(`Failed to save widget config: ${configResponse.status}`);
-        }
-        if (!appearancesResponse.ok) {
-          throw new Error(`Failed to save widget appearances: ${appearancesResponse.status}`);
+        if (!response.ok) {
+          throw new Error(`Failed to save widget: ${response.status}`);
         }
       };
 
       try {
         const savePromises = [
-          saveVariantAndAppearances(
+          saveWidget(
+            widget,
             result.widgetData.updatedVariant,
             result.widgetData.updatedAppearances,
             result.widgetData.publishStatus,
@@ -120,7 +117,12 @@ export function createEditorConfig(
 
         if (result.teaserData) {
           savePromises.push(
-            saveVariantAndAppearances(
+            saveWidget(
+              teaser ||
+                {
+                  id: result.teaserData.updatedVariant.id,
+                  name: 'teaser',
+                },
               result.teaserData.updatedVariant,
               result.teaserData.updatedAppearances,
               result.teaserData.publishStatus,
@@ -139,7 +141,7 @@ export function createEditorConfig(
     getContactMappingOptions: () => Promise.resolve(contactMappingOptions),
     createWidget: async (payload) => {
       try {
-        const widgetResponse = await fetch(`/api/widget`, {
+        const widgetResponse = await fetch(`/api/simplified/widget`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -212,5 +214,3 @@ export function createEditorConfig(
     ]
   } as EditorConfigI;
 }
-
-export {EDITOR_SCRIPTS_URL};
