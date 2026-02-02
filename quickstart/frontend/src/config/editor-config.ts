@@ -12,7 +12,7 @@ import {
 import {componentsPanelConfig} from './components-panel';
 import {SHOPIFY_THEME} from "./shopify-theme.constant";
 import {showSnackbar} from '../utils/snackbar';
-import {SimplifiedWidgetModelI} from '../../shared/types';
+import {SimplifiedWidgetModelI} from '../../../shared/types';
 
 export const EDITOR_SCRIPTS_URL = 'https://plugin.claspo.io/plugin/latest/editor';
 const STATIC_RESOURCES_URL = import.meta.env.VITE_STATIC_RESOURCES_URL || 'http://localhost:9590/';

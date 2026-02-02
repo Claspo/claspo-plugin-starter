@@ -1,6 +1,6 @@
 import type {ClDocumentI} from '@claspo/common/document/Document.interface';
 import {WidgetInitConfigI} from '@claspo/common/WidgetInitConfig.interface';
-import {SimplifiedWidgetModelI} from "../types";
+import {SimplifiedWidgetModelI} from '../../../shared/types';
 
 const STATIC_RESOURCES_URL = import.meta.env.VITE_STATIC_RESOURCES_URL || 'http://localhost:9590/';
 const API_URL = '/';

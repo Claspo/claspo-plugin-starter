@@ -1,7 +1,7 @@
 import StaticDocumentConnector from '@claspo/document-connector/StaticDocumentConnector';
 import type { ClDocumentI } from '@claspo/common/document/Document.interface';
 import { createRendererConfig } from './config/renderer-config';
-import { SimplifiedWidgetModelI } from '../shared/types';
+import {SimplifiedWidgetModelI} from '../../shared/types';
 
 const WIDGET_ID = 1;
 
