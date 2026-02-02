@@ -13,10 +13,10 @@
     "node": ">=22.20.0"
   },
   "dependencies": {
-    "@claspo/common": "6.0.6",
-    "@claspo/document-connector": "15.0.5",
-    "@claspo/renderer": "17.0.3",
-    "@claspo/components": "1.1.18",
+    "@claspo/common": "6.0.13",
+    "@claspo/document-connector": "15.0.9",
+    "@claspo/renderer": "17.0.9",
+    "@claspo/components": "1.1.22",
     "intl-tel-input": "^25.5.2"
   },
   "devDependencies": {
