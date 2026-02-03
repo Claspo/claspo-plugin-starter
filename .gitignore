@@ -1,7 +1,10 @@
 out
 node_modules
 bundled-components
-quickstart/backend/data/local-data
+quickstart/backend-advanced/data/local-data
+quickstart/backend-advanced/dist
+quickstart/backend/data/widgets
+quickstart/backend/data/next-id.json
 quickstart/backend/dist
 quickstart/frontend/dist
 

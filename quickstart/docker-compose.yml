@@ -2,7 +2,7 @@ name: claspo-quickstart
 
 services:
   backend:
-    build: ./backend
+    build: ./backend-advanced
     ports:
       - "3200:3100"
     restart: unless-stopped

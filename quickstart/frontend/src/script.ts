@@ -1,7 +1,7 @@
 import StaticDocumentConnector from '@claspo/document-connector/StaticDocumentConnector';
 import type { ClDocumentI } from '@claspo/common/document/Document.interface';
 import { createRendererConfig } from './config/renderer-config';
-import {WidgetAppearanceI, WidgetModelI} from '@claspo/editor';
+import {SimplifiedWidgetModelI} from '../../shared/types';
 
 const WIDGET_ID = 1;
 
@@ -9,16 +9,8 @@ type ConnectorEventData = {
   data?: unknown;
 };
 
-async function loadAppearances(): Promise<WidgetAppearanceI[]> {
-  const response = await fetch(`/api/widget/${WIDGET_ID}/appearances`);
-  if (!response.ok) {
-    throw new Error(`Failed to load widget: ${response.status}`);
-  }
-  return response.json();
-}
-
-async function loadWidget(): Promise<WidgetModelI> {
-  const response = await fetch(`/api/widget/${WIDGET_ID}`);
+async function loadWidget(widgetId: number): Promise<SimplifiedWidgetModelI> {
+  const response = await fetch(`/api/simplified/widget/${widgetId}`);
   if (!response.ok) {
     throw new Error(`Failed to load widget: ${response.status}`);
   }
@@ -27,11 +19,8 @@ async function loadWidget(): Promise<WidgetModelI> {
 
 async function initRenderer(): Promise<void> {
   try {
-    const appearances = await loadAppearances();
-    const widget = await loadWidget();
-    const documentModel = JSON.parse(appearances[0].document) as ClDocumentI;
-
-    const config = createRendererConfig(widget, documentModel);
+    const widget = await loadWidget(WIDGET_ID);
+    const config = createRendererConfig(widget);
     const connector = new StaticDocumentConnector(config);
 
     await connector.connect(document.body);
