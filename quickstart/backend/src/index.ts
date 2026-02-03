@@ -1,28 +1,31 @@
 import express from 'express';
 import cors from 'cors';
-import widgetsRouter from './routes/widgets.js';
-import { initializeDefaultData } from './repository/widget-repository.js';
+import widgetRoutes from './routes/widgets';
+import { initializeTempStorage } from './repository/widget-repository';
 
 const app = express();
-const PORT = 3100;
-
-// Initialize default data on startup
-initializeDefaultData();
+const PORT = process.env.PORT || 3101;
 
 // Middleware
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-// API routes
-app.use('/api', widgetsRouter);
+// Routes
+app.use('/api/simplified', widgetRoutes);
 
-// Health check endpoint
+// Health check
 app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.json({ status: 'ok', service: 'backend' });
 });
 
-// Start server
+// Initialize temp storage on startup
+initializeTempStorage();
+
 app.listen(PORT, () => {
-  console.log(`Backend server running on http://localhost:${PORT}`);
+  console.log(`Backend running on http://localhost:${PORT}`);
+  console.log('Endpoints:');
+  console.log(`  GET    /api/simplified/widget/:id`);
+  console.log(`  POST   /api/simplified/widget`);
+  console.log(`  PUT    /api/simplified/widget/:id`);
+  console.log(`  POST   /api/simplified/reset`);
 });

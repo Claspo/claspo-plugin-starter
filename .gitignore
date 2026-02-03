@@ -1,11 +1,11 @@
 out
 node_modules
 bundled-components
-quickstart/backend/data/local-data
+quickstart/backend-advanced/data/local-data
+quickstart/backend-advanced/dist
+quickstart/backend/data/widgets
+quickstart/backend/data/next-id.json
 quickstart/backend/dist
-quickstart/backend-simplified/data/widgets
-quickstart/backend-simplified/data/next-id.json
-quickstart/backend-simplified/dist
 quickstart/frontend/dist
 
 # IDEs and editors

@@ -1,12 +1,12 @@
 {
   "name": "claspo-plugin-starter-poc",
   "scripts": {
-    "install:all": "npm i && cd quickstart/shared && npm i && cd ../backend-simplified && npm i && cd ../frontend && npm i",
+    "install:all": "npm i && cd quickstart/shared && npm i && cd ../backend && npm i && cd ../frontend && npm i",
     "components:build:prod": "npx webpack --config webpack.config.components.js",
     "components:build:dev": "cross-env dev=1 npx webpack --config webpack.config.components.js --watch",
     "components:dev": "cross-env dev=1 npx webpack serve --config webpack.config.components.js --watch",
-    "quickstart:backend": "cd quickstart/backend-simplified && npm run dev",
-    "quickstart:backend:full": "cd quickstart/backend && npm run dev",
+    "quickstart:backend": "cd quickstart/backend && npm run dev",
+    "quickstart:backend:advanced": "cd quickstart/backend-advanced && npm run dev",
     "quickstart:frontend": "cd quickstart/frontend && npm run dev",
     "dev": "concurrently --kill-others \"npm run components:dev\" \"npm run quickstart:backend\" \"npm run quickstart:frontend\" --names \"components,backend,frontend\" --prefix-colors \"cyan,magenta,yellow\""
   },
