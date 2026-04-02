@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@claspo/editor": "^1.0.15"
+    "@claspo/editor": "^1.0.16"
   }
 }
