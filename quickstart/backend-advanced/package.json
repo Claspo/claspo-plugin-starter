@@ -13,7 +13,7 @@
     "express": "^4.21.0",
     "multer": "^2.0.0",
     "uuid": "^9.0.0",
-    "@claspo/editor": "^1.0.17"
+    "@claspo/editor": "^1.0.18"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
