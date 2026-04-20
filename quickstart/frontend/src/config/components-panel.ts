@@ -93,6 +93,7 @@ export const componentsPanelConfig: AvailableComponentsGroupI[] = [
       { componentName: 'SysDropdownInputComponent' },
       { componentName: 'SysRadioGroupComponent' },
       { componentName: 'SysCheckboxListComponent' },
+      { componentName: 'SysChoiceButtonsComponent' },
       { componentName: 'SysDateComponent' },
       { componentName: 'SysCalendarComponent' },
     ],
