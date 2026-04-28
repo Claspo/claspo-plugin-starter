@@ -26,5 +26,6 @@ module.exports = {
     'SysTextAreaComponent',
     'SysSocialComponent',
     'SysChoiceButtonsComponent',
+    'SysShopifyProductCollectionComponent'
   ],
 }
