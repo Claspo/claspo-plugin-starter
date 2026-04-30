@@ -10,9 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@claspo/common": "7.1.4-shpf1",
-    "@claspo/document-connector": "16.5.3-shpf1",
-    "@claspo/editor": "^1.0.18"
+    "@claspo/common": "7.1.5",
+    "@claspo/document-connector": "16.5.4",
+    "@claspo/editor": "^1.0.19"
   },
   "devDependencies": {
     "typescript": "^5.3.3",
