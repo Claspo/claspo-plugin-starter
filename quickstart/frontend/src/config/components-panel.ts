@@ -101,7 +101,6 @@ export const componentsPanelConfig: AvailableComponentsGroupI[] = [
   {
     label: 'DOCUMENT_DRAGGABLE_COMPONENTS_OTHER',
     components: [
-      { componentName: 'SysShopifyProductCollectionComponent' },
       {
         componentName: 'SysSliderComponent',
         dependentComponentNames: ['SysSlideComponent'],

@@ -14,9 +14,9 @@
     "node": ">=22.20.0"
   },
   "dependencies": {
-    "@claspo/common": "7.1.5",
-    "@claspo/document-connector": "16.5.4",
-    "@claspo/renderer": "18.4.2",
+    "@claspo/common": "7.2.0",
+    "@claspo/document-connector": "16.6.3",
+    "@claspo/renderer": "18.5.0",
     "@claspo/components": "1.6.3",
     "intl-tel-input": "^25.5.2"
   },
