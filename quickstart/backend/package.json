@@ -11,7 +11,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.21.0",
-    "@claspo/editor": "^1.0.18"
+    "@claspo/editor": "^1.0.20"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
