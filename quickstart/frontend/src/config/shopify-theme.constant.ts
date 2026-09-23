@@ -110,7 +110,6 @@ export const SHOPIFY_THEME: EditorThemeI = {
   },
   editorPanel: {
     smallBorderRadius: '8px',
-    rewardsInputWidth: '80px',
     errorNotificationBackgroundColor: '#FEE8EB',
     errorNotificationLeftPadding: '64px',
     tabsBackgroundColor: '#F1F1F1',

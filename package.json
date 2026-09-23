@@ -14,10 +14,10 @@
     "node": ">=22.20.0"
   },
   "dependencies": {
-    "@claspo/common": "7.5.3",
-    "@claspo/document-connector": "16.11.4",
-    "@claspo/renderer": "18.10.0",
-    "@claspo/components": "1.10.19",
+    "@claspo/common": "7.5.9",
+    "@claspo/document-connector": "16.12.2",
+    "@claspo/renderer": "18.12.1",
+    "@claspo/components": "1.10.22",
     "intl-tel-input": "^25.5.2"
   },
   "devDependencies": {
